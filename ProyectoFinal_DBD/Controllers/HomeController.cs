@@ -93,7 +93,6 @@ namespace ProyectoFinal_DBD.Controllers
         [HttpGet]
         public ActionResult ModificarCuenta(CuentaModel cuentaModel)
         {
-            ViewBag.ActiveUpdate = "active";
             return View(cuentaModel);
         }
 
@@ -107,7 +106,6 @@ namespace ProyectoFinal_DBD.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.ActiveUpdate = "active";
                 return View(cuentaModel);
             }
 
@@ -129,6 +127,22 @@ namespace ProyectoFinal_DBD.Controllers
             listaParametros.Add(parametro);
 
             String resultado = oracleCon.ExecuteProcedure("pkg_account_management.update_account", listaParametros);
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult EliminarEmpleado(String cuenta)
+        {
+            String resultado = String.Empty;
+            if (cuenta != null)
+            {
+                oracleCon = new OracleConn();
+                List<OracleParameter> listaParametros = new List<OracleParameter>();
+                OracleParameter parametro = new OracleParameter();
+                parametro = new OracleParameter("vl_cuenta", OracleDbType.NVarchar2, cuenta, ParameterDirection.Input);
+                listaParametros.Add(parametro);
+                resultado = oracleCon.ExecuteProcedure("pkg_account_management.delete_account", listaParametros);
+            }
 
             return RedirectToAction("Index");
         }

@@ -43,9 +43,9 @@
                         @if (cuenta.Status == "X")
                         {
                             @Html.ActionLink("Modificar", "ModificarCuenta", "Home", new { Cuenta = cuenta.Cuenta, Nombre = cuenta.Nombre, Apellido = cuenta.Apellido, Saldo = cuenta.Saldo, Interes = cuenta.Interes, Status = cuenta.Status }, new { @class = "btn btn-primary" });
-                            @*@Html.ActionLink("Eliminar", "EliminarEmpleado", "Home", new { id = cuenta.Cuenta }, new { @class = "btn btn-danger" });*@
+                            @Html.ActionLink("Eliminar", "EliminarEmpleado", "Home", new { cuenta = cuenta.Cuenta }, new { @class = "btn btn-danger" });
                         }
-                        <!-- Acciones para cuentas inactivas -->
+                        // Acciones para cuentas inactivas
                         else
                         {
                             
