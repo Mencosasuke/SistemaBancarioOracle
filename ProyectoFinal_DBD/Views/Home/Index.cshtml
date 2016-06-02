@@ -1,0 +1,40 @@
+﻿@using ProyectoFinal_DBD.Models
+@model List<CuentaModel>
+@{
+    ViewBag.Title = "Home Page";
+}
+<div class="page-header">
+    <h2>Listado de Cuentas <small>Sistema Bancario</small></h2>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr class="txt-centered">
+            <th>NO. CUENTA</th>
+            <th>NOMBRE</th>
+            <th>APELLIDO</th>
+            <th>INTERES</th>
+            <th>SALDO</th>
+            <th>STATUS</th>
+            <th class="txt-centered">-</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (CuentaModel cuenta in Model)
+        {
+            <tr>
+                <td>@cuenta.Cuenta</td>
+                <td>@cuenta.Nombre</td>
+                <td>@cuenta.Apellido</td>
+                <td>@String.Format("{0:0.00}%", cuenta.Interes)</td>
+                <td>@String.Format("{0:C2}", cuenta.Saldo)</td>
+                <td>@cuenta.Status</td>
+                <td class="txt-centered">
+                    <div class="btn-group">
+                        @*@Html.ActionLink("Modificar", "ModificarEmpleado", "Home", new { IdEmpleado = empleado.IdEmpleado, Nombre = empleado.Nombre, Salario = empleado.Salario, Comision = String.Format("{0:0}", empleado.Comision * 100), Total = empleado.Total }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Eliminar", "EliminarEmpleado", "Home", new { id = @empleado.IdEmpleado }, new { @class = "btn btn-danger" })*@
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
