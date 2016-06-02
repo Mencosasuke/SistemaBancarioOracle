@@ -27,11 +27,30 @@
                 <td>@cuenta.Apellido</td>
                 <td>@String.Format("{0:0.00}%", cuenta.Interes)</td>
                 <td>@String.Format("{0:C2}", cuenta.Saldo)</td>
-                <td>@cuenta.Status</td>
+                <td>
+                    @if (cuenta.Status == "X")
+                    {
+                        <i class="fa fa-check text-success" aria-hidden="true"></i>
+                    }
+                    else
+                    {
+                        <i class="fa fa-ban text-danger" aria-hidden="true"></i>
+                    }
+                </td>
                 <td class="txt-centered">
-                    <div class="btn-group">
-                        @*@Html.ActionLink("Modificar", "ModificarEmpleado", "Home", new { IdEmpleado = empleado.IdEmpleado, Nombre = empleado.Nombre, Salario = empleado.Salario, Comision = String.Format("{0:0}", empleado.Comision * 100), Total = empleado.Total }, new { @class = "btn btn-primary" })
-                        @Html.ActionLink("Eliminar", "EliminarEmpleado", "Home", new { id = @empleado.IdEmpleado }, new { @class = "btn btn-danger" })*@
+                    <div class="btn-group btn-group-sm">
+                        <!-- Acciones para cuentas activas -->
+                        @if (cuenta.Status == "X")
+                        {
+                            @Html.ActionLink("Modificar", "ModificarCuenta", "Home", new { Cuenta = cuenta.Cuenta, Nombre = cuenta.Nombre, Apellido = cuenta.Apellido, Saldo = cuenta.Saldo, Interes = cuenta.Interes, Status = cuenta.Status }, new { @class = "btn btn-primary" });
+                            @*@Html.ActionLink("Eliminar", "EliminarEmpleado", "Home", new { id = cuenta.Cuenta }, new { @class = "btn btn-danger" });*@
+                        }
+                        <!-- Acciones para cuentas inactivas -->
+                        else
+                        {
+                            
+                        }
+                        @*@Html.ActionLink("Eliminar", "EliminarEmpleado", "Home", new { id = @empleado.IdEmpleado }, new { @class = "btn btn-danger" })*@
                     </div>
                 </td>
             </tr>

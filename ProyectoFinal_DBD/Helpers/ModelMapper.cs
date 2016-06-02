@@ -26,7 +26,7 @@ namespace ProyectoFinal_DBD.Helpers
                 nuevaCuenta.Apellido = cuenta["APELLIDO"] as String;
                 nuevaCuenta.Saldo = Convert.ToDecimal(cuenta["SALDO"]);
                 nuevaCuenta.Interes = Convert.ToDecimal(cuenta["INTERES"]);
-                nuevaCuenta.Status = cuenta["STATUS"] as String;
+                nuevaCuenta.Status = (cuenta["STATUS"] as String) ?? "";
 
                 listaCuentas.Add(nuevaCuenta);
             }

@@ -82,8 +82,55 @@ namespace ProyectoFinal_DBD.Controllers
 
             String resultado = oracleCon.ExecuteProcedure("pkg_account_management.insert_account", listaParametros);
 
-            ViewBag.ActiveNew = "active";
-            return View("Index");
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Muestra la vista para modificar una cuenta existente
+        /// </summary>
+        /// <param name="cuentaModel">Datos de la cuenta a modificar</param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ModificarCuenta(CuentaModel cuentaModel)
+        {
+            ViewBag.ActiveUpdate = "active";
+            return View(cuentaModel);
+        }
+
+        /// <summary>
+        /// Realiza la modificació de la cuenta alterada
+        /// </summary>
+        /// <param name="cuentaModel">Datos nuevos de la cuenta que se va a modificar</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult UpdateCuenta(CuentaModel cuentaModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.ActiveUpdate = "active";
+                return View(cuentaModel);
+            }
+
+            oracleCon = new OracleConn();
+
+            List<OracleParameter> listaParametros = new List<OracleParameter>();
+
+            OracleParameter parametro = new OracleParameter();
+
+            parametro = new OracleParameter("vl_cuenta", OracleDbType.NVarchar2, cuentaModel.Cuenta, ParameterDirection.Input);
+            listaParametros.Add(parametro);
+            parametro = new OracleParameter("vl_nombre", OracleDbType.NVarchar2, cuentaModel.Nombre, ParameterDirection.Input);
+            listaParametros.Add(parametro);
+            parametro = new OracleParameter("vl_apellido", OracleDbType.NVarchar2, cuentaModel.Apellido, ParameterDirection.Input);
+            listaParametros.Add(parametro);
+            parametro = new OracleParameter("vl_saldo", OracleDbType.Decimal, cuentaModel.Saldo, ParameterDirection.Input);
+            listaParametros.Add(parametro);
+            parametro = new OracleParameter("vl_interes", OracleDbType.Decimal, cuentaModel.Interes, ParameterDirection.Input);
+            listaParametros.Add(parametro);
+
+            String resultado = oracleCon.ExecuteProcedure("pkg_account_management.update_account", listaParametros);
+
+            return RedirectToAction("Index");
         }
     }
 }

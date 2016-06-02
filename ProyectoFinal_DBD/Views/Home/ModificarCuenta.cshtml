@@ -1,0 +1,47 @@
+﻿@model ProyectoFinal_DBD.Models.CuentaModel
+
+@{
+    ViewBag.Title = "ModificarCuenta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-header">
+    <h2>Modificar Cuenta <small>@Model.Cuenta</small></h2>
+</div>
+@using (Html.BeginForm("UpdateCuenta", "Home", FormMethod.Post, new { @class = "form-group col-sm-6" }))
+{
+    @Html.HiddenFor(c => c.Cuenta)
+
+    <div class="form-group">
+        @Html.LabelFor(n => n.Nombre)
+        @Html.TextBoxFor(n => n.Nombre, new { @class = "form-control", placeholder = "Nombres" })
+        @Html.ValidationMessageFor(n => n.Nombre, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(n => n.Apellido)
+        @Html.TextBoxFor(n => n.Apellido, new { @class = "form-control", placeholder = "Apellidos" })
+        @Html.ValidationMessageFor(n => n.Apellido, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(s => s.Interes)
+        @Html.TextBoxFor(s => s.Interes, new { @class = "form-control", placeholder = "0.00" })
+        @Html.ValidationMessageFor(s => s.Interes, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.Saldo)
+        @Html.TextBoxFor(c => c.Saldo, new { @class = "form-control", placeholder = "0.00" })
+        @Html.ValidationMessageFor(c => c.Saldo, "", new { @class = "text-danger" })
+    </div>
+
+    @Html.HiddenFor(s => s.Status)
+
+    <div class="form-group text-right col-sm-7">
+        <button class="btn btn-success" title="Guardar" type="submit">Guardar</button>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
