@@ -15,7 +15,9 @@
             <th>INTERES</th>
             <th>SALDO</th>
             <th>STATUS</th>
-            <th class="txt-centered">-</th>
+            <th class="txt-centered">MANTENIMIENTO</th>
+            <th class="txt-centered">TRANSACCIONES</th>
+            <th class="txt-centered">INTERESES</th>
         </tr>
     </thead>
     <tbody>
@@ -43,14 +45,34 @@
                         @if (cuenta.Status == "X")
                         {
                             @Html.ActionLink("Modificar", "ModificarCuenta", "Home", new { Cuenta = cuenta.Cuenta, Nombre = cuenta.Nombre, Apellido = cuenta.Apellido, Saldo = cuenta.Saldo, Interes = cuenta.Interes, Status = cuenta.Status }, new { @class = "btn btn-primary" });
-                            @Html.ActionLink("Eliminar", "EliminarEmpleado", "Home", new { cuenta = cuenta.Cuenta }, new { @class = "btn btn-danger" });
+                            @Html.ActionLink("Deshabilitar", "DeshabilitarCuenta", "Home", new { cuenta = cuenta.Cuenta }, new { @class = "btn btn-danger" });
                         }
                         // Acciones para cuentas inactivas
                         else
                         {
-                            
+                            @Html.ActionLink("Habilitar", "HabilitarCuenta", "Home", new { cuenta = cuenta.Cuenta }, new { @class = "btn btn-info" });
                         }
-                        @*@Html.ActionLink("Eliminar", "EliminarEmpleado", "Home", new { id = @empleado.IdEmpleado }, new { @class = "btn btn-danger" })*@
+                    </div>
+                </td>
+                <td class="txt-centered">
+                    <div class="btn-group btn-group-sm">
+                        <!-- Acciones para cuentas activas -->
+                        @if (cuenta.Status == "X")
+                        {
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Transacción <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Transferir", "Transferencia", "Home", new { cuenta = cuenta.Cuenta }, null)</li>
+                                    <li><a href="#">Another action</a></li>
+                                </ul>
+                            </div>
+                        }
+                        // Acciones para cuentas inactivas
+                        else
+                        {
+                        }
                     </div>
                 </td>
             </tr>

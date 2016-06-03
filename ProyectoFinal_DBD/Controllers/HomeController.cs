@@ -131,7 +131,12 @@ namespace ProyectoFinal_DBD.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult EliminarEmpleado(String cuenta)
+        /// <summary>
+        /// Deshabilita una cuenta del sistema
+        /// </summary>
+        /// <param name="cuenta">Código de la cuenta a deshabilitar</param>
+        /// <returns></returns>
+        public ActionResult DeshabilitarCuenta(String cuenta)
         {
             String resultado = String.Empty;
             if (cuenta != null)
@@ -146,5 +151,80 @@ namespace ProyectoFinal_DBD.Controllers
 
             return RedirectToAction("Index");
         }
+
+        /// <summary>
+        /// Habilitar una cuenta del sistema
+        /// </summary>
+        /// <param name="cuenta">Código de la cuenta a habilitar</param>
+        /// <returns></returns>
+        public ActionResult HabilitarCuenta(String cuenta)
+        {
+            String resultado = String.Empty;
+            if (cuenta != null)
+            {
+                oracleCon = new OracleConn();
+                List<OracleParameter> listaParametros = new List<OracleParameter>();
+                OracleParameter parametro = new OracleParameter();
+                parametro = new OracleParameter("vl_cuenta", OracleDbType.NVarchar2, cuenta, ParameterDirection.Input);
+                listaParametros.Add(parametro);
+                resultado = oracleCon.ExecuteProcedure("pkg_account_management.reopen_account", listaParametros);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Renderiza la vista para ingresar los datos de la transferencia
+        /// </summary>
+        /// <param name="cuenta">Numero de cuenta de origen</param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Transferencia(String cuenta)
+        {
+            // Obtiene el listado de cuentas del sistema
+            List<CuentaModel> listaCuentas = new List<CuentaModel>();
+            oracleCon = new OracleConn();
+            DataTable dtCuentas = oracleCon.ExecuteQuery(String.Format("SELECT * FROM CUENTA WHERE STATUS = 'X' AND CUENTA <> '{0}' ORDER BY NOMBRE ASC", cuenta));
+            listaCuentas = mapper.MapearModeloCuenta(dtCuentas);
+            
+            ViewBag.ListaCuentas = listaCuentas;
+            ViewBag.Cuenta = cuenta;
+
+            return View();
+        }
+
+        /// <summary>
+        /// Realiza la transferencia de montos entre la cuenta origen y la cuenta destino
+        /// </summary>
+        /// <param name="cuenta">No. de cuenta origen</param>
+        /// <param name="cuentaDestino">No. de cuenta destino</param>
+        /// <param name="monto">Cantidad de dinero a transferir de una cuenta a otra</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult Transferencia(String cuenta, String cuentaDestino, Decimal monto)
+        {
+            String resultado = String.Empty;
+            if (cuenta != null && cuentaDestino != null && monto >= 0)
+            {
+                oracleCon = new OracleConn();
+                List<OracleParameter> listaParametros = new List<OracleParameter>();
+                OracleParameter parametro = new OracleParameter();
+                parametro = new OracleParameter("vl_cuentaOrigen", OracleDbType.NVarchar2, cuenta, ParameterDirection.Input);
+                listaParametros.Add(parametro);
+                parametro = new OracleParameter("vl_cuentaDestino", OracleDbType.NVarchar2, cuentaDestino, ParameterDirection.Input);
+                listaParametros.Add(parametro);
+                parametro = new OracleParameter("vl_monto", OracleDbType.Decimal, monto, ParameterDirection.Input);
+                listaParametros.Add(parametro);
+                resultado = oracleCon.ExecuteProcedure("pkg_account_management.transf_saldos", listaParametros);
+            }
+            else
+            {
+                // Devolver error en campos
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
     }
 }

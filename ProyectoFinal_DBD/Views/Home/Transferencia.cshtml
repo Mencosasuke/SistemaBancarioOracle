@@ -1,0 +1,43 @@
+﻿@using ProyectoFinal_DBD.Models
+
+@{
+    ViewBag.Title = "Transferencia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    String cuenta = ViewBag.Cuenta as String;
+    List<CuentaModel> listaCuentas = ViewBag.ListaCuentas as List<CuentaModel>;
+    String cuentaDestino = String.Empty;
+    Decimal monto = 0;
+}
+<div class="page-header">
+    <h2>Transferencia de cuentas <small>@cuenta</small></h2>
+</div>
+@using (Html.BeginForm("Transferencia", "Home", FormMethod.Post, new { @class = "form-group col-sm-6" }))
+{
+    @Html.HiddenFor(c => cuenta);
+    
+    @Html.Label("Cuenta Origen: ")
+    <span>@cuenta</span>
+
+    <div class="form-group">
+        @Html.Label("Cuenta Destino")
+        <select name="cuentaDestino" class="form-control">
+            @foreach(CuentaModel c in listaCuentas){
+                <option value="@c.Cuenta" selected="selected">@String.Format("{0} {1} - {2}", c.Nombre, c.Apellido, c.Cuenta)</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Monto")
+        @Html.TextBoxFor(m => monto, new { @class = "form-control", placeholder = "0.00" })
+        @Html.ValidationMessageFor(m => monto, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group text-right col-sm-7">
+        <button class="btn btn-success" title="Transferir" type="submit">Transferir</button>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

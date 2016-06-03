@@ -8,10 +8,16 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="~/Home">
+            <i class="fa fa-university" aria-hidden="true"></i> Sistema Bancario</a>
+        </div>
+    </nav>
     <div class="col-sm-2 top-margin">
         <ul class="nav nav-pills nav-stacked">
-            <li role="presentation" class="@ViewBag.ActiveHome"><a href="~/Home">Home</a></li>
-            <li role="presentation" class="@ViewBag.ActiveNew"><a href="~/Home/NuevaCuenta">Nueva Cuenta</a></li>
+            <li role="presentation" class="@ViewBag.ActiveHome"><a href="~/Home"><i class="fa fa-home fa-lg" aria-hidden="true"></i> Home</a></li>
+            <li role="presentation" class="@ViewBag.ActiveNew"><a href="~/Home/NuevaCuenta"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> Nueva Cuenta</a></li>
         </ul>
     </div>
     <div class="col-sm-10">
