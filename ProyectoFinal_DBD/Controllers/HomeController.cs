@@ -237,9 +237,9 @@ namespace ProyectoFinal_DBD.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Realiza un incremento en el saldo de todas las cuentas activas
         /// </summary>
-        /// <param name="cantidad"></param>
+        /// <param name="cantidad">Monto a incrementar en las cuentas del sistema</param>
         /// <returns></returns>
         [HttpPost]
         public ActionResult IncrementarCuentas(Decimal monto)
@@ -253,6 +253,42 @@ namespace ProyectoFinal_DBD.Controllers
                 parametro = new OracleParameter("vl_monto", OracleDbType.Decimal, monto, ParameterDirection.Input);
                 listaParametros.Add(parametro);
                 resultado = oracleCon.ExecuteProcedure("pkg_account_management.aumentar_saldos", listaParametros);
+            }
+            else
+            {
+                // Mensaje de error
+            }
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Retorna la vista para realizar un decremento a todas las cuentas del sistema
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult DecrementarLote()
+        {
+            ViewBag.ActiveDec = "active";
+            return View();
+        }
+
+        /// <summary>
+        /// Realiza un decremento en el saldo de todas las cuentas activas
+        /// </summary>
+        /// <param name="cantidad">Monto a decrementar en las cuentas del sistema</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult DecrementarCuentas(Decimal monto)
+        {
+            String resultado = String.Empty;
+            if (monto >= 0)
+            {
+                oracleCon = new OracleConn();
+                List<OracleParameter> listaParametros = new List<OracleParameter>();
+                OracleParameter parametro = new OracleParameter();
+                parametro = new OracleParameter("vl_monto", OracleDbType.Decimal, monto, ParameterDirection.Input);
+                listaParametros.Add(parametro);
+                resultado = oracleCon.ExecuteProcedure("pkg_account_management.decrementar_saldos", listaParametros);
             }
             else
             {

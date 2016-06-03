@@ -170,6 +170,7 @@
     <Content Include="Views\Home\ModificarCuenta.cshtml" />
     <Content Include="Views\Home\Transferencia.cshtml" />
     <Content Include="Views\Home\IncrementarLote.cshtml" />
+    <Content Include="Views\Home\DecrementarLote.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
