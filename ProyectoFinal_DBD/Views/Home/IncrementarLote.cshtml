@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "IncrementarLote";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Decimal monto = 0;
+}
+<div class="page-header">
+    <h2>Incrementar Cuentas</h2>
+</div>
+@using (Html.BeginForm("IncrementarCuentas", "Home", FormMethod.Post, new { @class = "form-group col-sm-6" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => monto)
+        @Html.TextBoxFor(m => monto, new { @class = "form-control", placeholder = "0.00" })
+        @Html.ValidationMessageFor(m => monto, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group text-left">
+        <button class="btn btn-success" title="Aceptar" type="submit">Aceptar</button>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

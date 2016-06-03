@@ -225,6 +225,40 @@ namespace ProyectoFinal_DBD.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Retorna la vista para realizar un aumento a todas las cuentas del sistema
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult IncrementarLote()
+        {
+            ViewBag.ActiveInc = "active";
+            return View();
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cantidad"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult IncrementarCuentas(Decimal monto)
+        {
+            String resultado = String.Empty;
+            if (monto >= 0)
+            {
+                oracleCon = new OracleConn();
+                List<OracleParameter> listaParametros = new List<OracleParameter>();
+                OracleParameter parametro = new OracleParameter();
+                parametro = new OracleParameter("vl_monto", OracleDbType.Decimal, monto, ParameterDirection.Input);
+                listaParametros.Add(parametro);
+                resultado = oracleCon.ExecuteProcedure("pkg_account_management.aumentar_saldos", listaParametros);
+            }
+            else
+            {
+                // Mensaje de error
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
