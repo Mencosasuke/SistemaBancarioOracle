@@ -382,5 +382,14 @@ namespace ProyectoFinal_DBD.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public ActionResult InteresLote()
+        {
+            String resultado = String.Empty;
+            oracleCon = new OracleConn();
+            resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.calcular_intereses", null);
+            return RedirectToAction("Index");
+        }
     }
 }

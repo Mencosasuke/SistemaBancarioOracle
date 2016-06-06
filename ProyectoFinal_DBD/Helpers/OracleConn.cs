@@ -108,12 +108,14 @@ namespace ProyectoFinal_DBD.Helpers
                     parametro.Size = 5000;
                     cmd.Parameters.Add(parametro);
 
-                    // Añade el resto de parametros enviados en la llamada del metodo
-                    foreach (OracleParameter param in parametros)
+                    // Añade el resto de parametros enviados en la llamada del metodo (si es que se envían)
+                    if (parametros != null)
                     {
-                        cmd.Parameters.Add(param);
+                        foreach (OracleParameter param in parametros)
+                        {
+                            cmd.Parameters.Add(param);
+                        }
                     }
-
                     // Ejecuta el procedimiento y guarda el mensaje devuelto por la ejecución
                     cmd.ExecuteNonQuery();
                     resultado = cmd.Parameters[0].Value.ToString();
