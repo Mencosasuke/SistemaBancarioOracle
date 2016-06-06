@@ -9,7 +9,10 @@ namespace ProyectoFinal_DBD
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery-ui.js",
+                        "~/Content/noty-master/jquery.noty.min.js",
+                        "~/Content/js/ProyectoFinal.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -24,6 +27,9 @@ namespace ProyectoFinal_DBD
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
+                      "~/Content/css/base/jquery-ui-1.10.4.custom.min.css",
+                      "~/Content/noty-master/css/buttons.css",
+                      "~/Content/noty-master/css/animate.css",
                       "~/Content/font-awesome.min.css",
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));

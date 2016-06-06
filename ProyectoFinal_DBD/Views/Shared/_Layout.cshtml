@@ -1,4 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@{
+    String mensaje = String.Empty;
+    String tipo = String.Empty;
+    
+    if (Convert.ToInt32(Session["NotyFlag"]) == 1)
+    {
+        mensaje = Session["Mensaje"] as String;
+        tipo = Session["TipoMensaje"] as String;
+        Session["NotyFlag"] = 0;
+    }
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -30,5 +41,10 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        $(document).ready(function () {
+            noty({ text: '@mensaje', type: '@tipo' });
+        });
+    </script>
 </body>
 </html>

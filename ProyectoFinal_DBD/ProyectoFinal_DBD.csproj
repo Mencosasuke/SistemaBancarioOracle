@@ -129,6 +129,10 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\js\ProyectoFinal.js" />
+    <Content Include="Content\noty-master\css\animate.css" />
+    <Content Include="Content\noty-master\css\buttons.css" />
+    <Content Include="Content\noty-master\jquery.noty.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

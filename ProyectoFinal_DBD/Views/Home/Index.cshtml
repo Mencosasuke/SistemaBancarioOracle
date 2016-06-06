@@ -72,9 +72,18 @@
                             </div>
                         }
                         // Acciones para cuentas inactivas
-                        else
+                        else { }
+                    </div>
+                </td>
+                <td class="txt-centered">
+                    <div class="btn-group btn-group-sm">
+                        <!-- Acciones para cuentas activas -->
+                        @if (cuenta.Status == "X")
                         {
+                            @Html.ActionLink("%", "InteresCuenta", "Home", new { cuenta = cuenta.Cuenta }, new { @class = "btn btn-success", @title = "Calcular Interés" });
                         }
+                        // Acciones para cuentas inactivas
+                        else { }
                     </div>
                 </td>
             </tr>

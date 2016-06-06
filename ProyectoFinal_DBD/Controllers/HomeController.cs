@@ -14,6 +14,11 @@ namespace ProyectoFinal_DBD.Controllers
     public class HomeController : Controller
     {
         /// <summary>
+        /// Listado de tipos de mensaje según resultados de transacciones
+        /// </summary>
+        private String[] TIPOS_MENSAJES = { "", "success", "error", "warning" };
+
+        /// <summary>
         /// Objeto de conexión a base de datos Oracle
         /// </summary>
         private OracleConn oracleCon;
@@ -81,6 +86,13 @@ namespace ProyectoFinal_DBD.Controllers
             listaParametros.Add(parametro);
 
             String resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.insert_account", listaParametros);
+            
+            int tipoMensaje = Convert.ToInt32(resultado.Split('|')[0]);
+            resultado = resultado.Split('|')[1];
+
+            Session["Mensaje"] = resultado;
+            Session["TipoMensaje"] = TIPOS_MENSAJES[tipoMensaje];
+            Session["NotyFlag"] = 1;
 
             return RedirectToAction("Index");
         }
@@ -127,6 +139,13 @@ namespace ProyectoFinal_DBD.Controllers
             listaParametros.Add(parametro);
 
             String resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.update_account", listaParametros);
+            
+            int tipoMensaje = Convert.ToInt32(resultado.Split('|')[0]);
+            resultado = resultado.Split('|')[1];
+
+            Session["Mensaje"] = resultado;
+            Session["TipoMensaje"] = TIPOS_MENSAJES[tipoMensaje];
+            Session["NotyFlag"] = 1;
 
             return RedirectToAction("Index");
         }
@@ -149,6 +168,13 @@ namespace ProyectoFinal_DBD.Controllers
                 resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.delete_account", listaParametros);
             }
 
+            int tipoMensaje = Convert.ToInt32(resultado.Split('|')[0]);
+            resultado = resultado.Split('|')[1];
+
+            Session["Mensaje"] = resultado;
+            Session["TipoMensaje"] = TIPOS_MENSAJES[tipoMensaje];
+            Session["NotyFlag"] = 1;
+
             return RedirectToAction("Index");
         }
 
@@ -169,6 +195,13 @@ namespace ProyectoFinal_DBD.Controllers
                 listaParametros.Add(parametro);
                 resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.reopen_account", listaParametros);
             }
+
+            int tipoMensaje = Convert.ToInt32(resultado.Split('|')[0]);
+            resultado = resultado.Split('|')[1];
+
+            Session["Mensaje"] = resultado;
+            Session["TipoMensaje"] = TIPOS_MENSAJES[tipoMensaje];
+            Session["NotyFlag"] = 1;
 
             return RedirectToAction("Index");
         }
@@ -222,6 +255,13 @@ namespace ProyectoFinal_DBD.Controllers
                 // Devolver error en campos
             }
 
+            int tipoMensaje = Convert.ToInt32(resultado.Split('|')[0]);
+            resultado = resultado.Split('|')[1];
+
+            Session["Mensaje"] = resultado;
+            Session["TipoMensaje"] = TIPOS_MENSAJES[tipoMensaje];
+            Session["NotyFlag"] = 1;
+
             return RedirectToAction("Index");
         }
 
@@ -258,6 +298,14 @@ namespace ProyectoFinal_DBD.Controllers
             {
                 // Mensaje de error
             }
+
+            int tipoMensaje = Convert.ToInt32(resultado.Split('|')[0]);
+            resultado = resultado.Split('|')[1];
+
+            Session["Mensaje"] = resultado;
+            Session["TipoMensaje"] = TIPOS_MENSAJES[tipoMensaje];
+            Session["NotyFlag"] = 1;
+
             return RedirectToAction("Index");
         }
 
@@ -294,6 +342,14 @@ namespace ProyectoFinal_DBD.Controllers
             {
                 // Mensaje de error
             }
+
+            int tipoMensaje = Convert.ToInt32(resultado.Split('|')[0]);
+            resultado = resultado.Split('|')[1];
+
+            Session["Mensaje"] = resultado;
+            Session["TipoMensaje"] = TIPOS_MENSAJES[tipoMensaje];
+            Session["NotyFlag"] = 1;
+
             return RedirectToAction("Index");
         }
 
@@ -337,6 +393,14 @@ namespace ProyectoFinal_DBD.Controllers
             {
                 // Mensaje de error
             }
+
+            int tipoMensaje = Convert.ToInt32(resultado.Split('|')[0]);
+            resultado = resultado.Split('|')[1];
+
+            Session["Mensaje"] = resultado;
+            Session["TipoMensaje"] = TIPOS_MENSAJES[tipoMensaje];
+            Session["NotyFlag"] = 1;
+
             return RedirectToAction("Index");
         }
 
@@ -380,15 +444,59 @@ namespace ProyectoFinal_DBD.Controllers
             {
                 // Mensaje de error
             }
+
+            int tipoMensaje = Convert.ToInt32(resultado.Split('|')[0]);
+            resultado = resultado.Split('|')[1];
+
+            Session["Mensaje"] = resultado;
+            Session["TipoMensaje"] = TIPOS_MENSAJES[tipoMensaje];
+            Session["NotyFlag"] = 1;
+
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Realiza el cálculo de intereses en todas las cuentas del sistema    
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult InteresLote()
         {
             String resultado = String.Empty;
             oracleCon = new OracleConn();
             resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.calcular_intereses", null);
+
+            int tipoMensaje = Convert.ToInt32(resultado.Split('|')[0]);
+            resultado = resultado.Split('|')[1];
+
+            Session["Mensaje"] = resultado;
+            Session["TipoMensaje"] = TIPOS_MENSAJES[tipoMensaje];
+            Session["NotyFlag"] = 1;
+            
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Realiza el cálculo de intereses en una cuenta en específico    
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult InteresCuenta(String cuenta)
+        {
+            String resultado = String.Empty;
+            oracleCon = new OracleConn();
+            List<OracleParameter> listaParametros = new List<OracleParameter>();
+            OracleParameter parametro = new OracleParameter("vl_cuenta", OracleDbType.NVarchar2, cuenta, ParameterDirection.Input);
+            listaParametros.Add(parametro);
+            resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.calcular_interes", listaParametros);
+
+            int tipoMensaje = Convert.ToInt32(resultado.Split('|')[0]);
+            resultado = resultado.Split('|')[1];
+
+            Session["Mensaje"] = resultado;
+            Session["TipoMensaje"] = TIPOS_MENSAJES[tipoMensaje];
+            Session["NotyFlag"] = 1;
+            
             return RedirectToAction("Index");
         }
     }
