@@ -66,8 +66,8 @@
                                 <ul class="dropdown-menu">
                                     <li>@Html.ActionLink("Transferir", "Transferencia", "Home", new { cuenta = cuenta.Cuenta }, null)</li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="#">Abonar</a></li>
-                                    <li><a href="#">Retirar</a></li>
+                                    <li>@Html.ActionLink("Abonar", "AbonoCuenta", "Home", new { cuenta = cuenta.Cuenta }, null)</li>
+                                    <li>@Html.ActionLink("Retirar", "RetiroCuenta", "Home", new { cuenta = cuenta.Cuenta }, null)</li>
                                 </ul>
                             </div>
                         }

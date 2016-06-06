@@ -67,7 +67,7 @@ namespace ProyectoFinal_DBD.Controllers
 
             List<OracleParameter> listaParametros = new List<OracleParameter>();
 
-            OracleParameter parametro = new OracleParameter();
+            OracleParameter parametro;
 
             parametro = new OracleParameter("vl_cuenta", OracleDbType.NVarchar2, cuentaModel.Cuenta, ParameterDirection.Input);
             listaParametros.Add(parametro);
@@ -113,7 +113,7 @@ namespace ProyectoFinal_DBD.Controllers
 
             List<OracleParameter> listaParametros = new List<OracleParameter>();
 
-            OracleParameter parametro = new OracleParameter();
+            OracleParameter parametro;
 
             parametro = new OracleParameter("vl_cuenta", OracleDbType.NVarchar2, cuentaModel.Cuenta, ParameterDirection.Input);
             listaParametros.Add(parametro);
@@ -143,7 +143,7 @@ namespace ProyectoFinal_DBD.Controllers
             {
                 oracleCon = new OracleConn();
                 List<OracleParameter> listaParametros = new List<OracleParameter>();
-                OracleParameter parametro = new OracleParameter();
+                OracleParameter parametro;
                 parametro = new OracleParameter("vl_cuenta", OracleDbType.NVarchar2, cuenta, ParameterDirection.Input);
                 listaParametros.Add(parametro);
                 resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.delete_account", listaParametros);
@@ -164,7 +164,7 @@ namespace ProyectoFinal_DBD.Controllers
             {
                 oracleCon = new OracleConn();
                 List<OracleParameter> listaParametros = new List<OracleParameter>();
-                OracleParameter parametro = new OracleParameter();
+                OracleParameter parametro;
                 parametro = new OracleParameter("vl_cuenta", OracleDbType.NVarchar2, cuenta, ParameterDirection.Input);
                 listaParametros.Add(parametro);
                 resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.reopen_account", listaParametros);
@@ -208,7 +208,7 @@ namespace ProyectoFinal_DBD.Controllers
             {
                 oracleCon = new OracleConn();
                 List<OracleParameter> listaParametros = new List<OracleParameter>();
-                OracleParameter parametro = new OracleParameter();
+                OracleParameter parametro;
                 parametro = new OracleParameter("vl_cuentaOrigen", OracleDbType.NVarchar2, cuenta, ParameterDirection.Input);
                 listaParametros.Add(parametro);
                 parametro = new OracleParameter("vl_cuentaDestino", OracleDbType.NVarchar2, cuentaDestino, ParameterDirection.Input);
@@ -249,7 +249,7 @@ namespace ProyectoFinal_DBD.Controllers
             {
                 oracleCon = new OracleConn();
                 List<OracleParameter> listaParametros = new List<OracleParameter>();
-                OracleParameter parametro = new OracleParameter();
+                OracleParameter parametro;
                 parametro = new OracleParameter("vl_monto", OracleDbType.Decimal, monto, ParameterDirection.Input);
                 listaParametros.Add(parametro);
                 resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.aumentar_saldos", listaParametros);
@@ -285,10 +285,96 @@ namespace ProyectoFinal_DBD.Controllers
             {
                 oracleCon = new OracleConn();
                 List<OracleParameter> listaParametros = new List<OracleParameter>();
-                OracleParameter parametro = new OracleParameter();
+                OracleParameter parametro;
                 parametro = new OracleParameter("vl_monto", OracleDbType.Decimal, monto, ParameterDirection.Input);
                 listaParametros.Add(parametro);
                 resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.decrementar_saldos", listaParametros);
+            }
+            else
+            {
+                // Mensaje de error
+            }
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Obtiene la vista para abonar en una cuenta específica
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult AbonoCuenta(String cuenta)
+        {
+            if (cuenta == null)
+            {
+                return RedirectToAction("Index");
+            }
+            ViewBag.Cuenta = cuenta;
+            return View();
+        }
+
+        /// <summary>
+        /// Realiza el abono en la cuenta específica
+        /// </summary>
+        /// <param name="cuenta">No. de cuenta a abonar</param>
+        /// <param name="monto">Cantidad a abonar</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult AbonoCuenta(String cuenta, Decimal monto)
+        {
+            String resultado = String.Empty;
+            if (monto >= 0)
+            {
+                oracleCon = new OracleConn();
+                List<OracleParameter> listaParametros = new List<OracleParameter>();
+                OracleParameter parametro;
+                parametro = new OracleParameter("vl_cuenta", OracleDbType.NVarchar2, cuenta, ParameterDirection.Input);
+                listaParametros.Add(parametro);
+                parametro = new OracleParameter("vl_monto", OracleDbType.Decimal, monto, ParameterDirection.Input);
+                listaParametros.Add(parametro);
+                resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.abono_cuenta", listaParametros);
+            }
+            else
+            {
+                // Mensaje de error
+            }
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Obtiene la vista para retirar en una cuenta específica
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult RetiroCuenta(String cuenta)
+        {
+            if (cuenta == null)
+            {
+                return RedirectToAction("Index");
+            }
+            ViewBag.Cuenta = cuenta;
+            return View();
+        }
+
+        /// <summary>
+        /// Realiza el retiro en la cuenta específica
+        /// </summary>
+        /// <param name="cuenta">No. de cuenta a retirar</param>
+        /// <param name="monto">Cantidad a retirar</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult RetiroCuenta(String cuenta, Decimal monto)
+        {
+            String resultado = String.Empty;
+            if (monto >= 0)
+            {
+                oracleCon = new OracleConn();
+                List<OracleParameter> listaParametros = new List<OracleParameter>();
+                OracleParameter parametro;
+                parametro = new OracleParameter("vl_cuenta", OracleDbType.NVarchar2, cuenta, ParameterDirection.Input);
+                listaParametros.Add(parametro);
+                parametro = new OracleParameter("vl_monto", OracleDbType.Decimal, monto, ParameterDirection.Input);
+                listaParametros.Add(parametro);
+                resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.retiro_cuenta", listaParametros);
             }
             else
             {

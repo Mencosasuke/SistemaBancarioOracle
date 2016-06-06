@@ -171,6 +171,8 @@
     <Content Include="Views\Home\Transferencia.cshtml" />
     <Content Include="Views\Home\IncrementarLote.cshtml" />
     <Content Include="Views\Home\DecrementarLote.cshtml" />
+    <Content Include="Views\Home\AbonoCuenta.cshtml" />
+    <Content Include="Views\Home\RetiroCuenta.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
