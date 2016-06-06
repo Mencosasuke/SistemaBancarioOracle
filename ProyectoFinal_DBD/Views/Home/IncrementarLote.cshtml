@@ -10,7 +10,7 @@
 @using (Html.BeginForm("IncrementarCuentas", "Home", FormMethod.Post, new { @class = "form-group col-sm-6" }))
 {
     <div class="form-group">
-        @Html.LabelFor(m => monto)
+        @Html.Label("Monto")
         @Html.TextBoxFor(m => monto, new { @class = "form-control", placeholder = "0.00" })
         @Html.ValidationMessageFor(m => monto, "", new { @class = "text-danger" })
     </div>

@@ -28,7 +28,7 @@ namespace ProyectoFinal_DBD.Controllers
         {
             // Obtiene el listado de cuentas del sistema
             oracleCon = new OracleConn();
-            DataTable dtCuentas = oracleCon.ExecuteQuery("SELECT * FROM CUENTA");
+            DataTable dtCuentas = oracleCon.ExecuteQuery("SELECT * FROM SYSBANC.CUENTA");
             List<CuentaModel> listaCuentas = mapper.MapearModeloCuenta(dtCuentas);
 
             ViewBag.ActiveHome = "active";
@@ -80,7 +80,7 @@ namespace ProyectoFinal_DBD.Controllers
             parametro = new OracleParameter("vl_interes", OracleDbType.Decimal, cuentaModel.Interes, ParameterDirection.Input);
             listaParametros.Add(parametro);
 
-            String resultado = oracleCon.ExecuteProcedure("pkg_account_management.insert_account", listaParametros);
+            String resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.insert_account", listaParametros);
 
             return RedirectToAction("Index");
         }
@@ -126,7 +126,7 @@ namespace ProyectoFinal_DBD.Controllers
             parametro = new OracleParameter("vl_interes", OracleDbType.Decimal, cuentaModel.Interes, ParameterDirection.Input);
             listaParametros.Add(parametro);
 
-            String resultado = oracleCon.ExecuteProcedure("pkg_account_management.update_account", listaParametros);
+            String resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.update_account", listaParametros);
 
             return RedirectToAction("Index");
         }
@@ -146,7 +146,7 @@ namespace ProyectoFinal_DBD.Controllers
                 OracleParameter parametro = new OracleParameter();
                 parametro = new OracleParameter("vl_cuenta", OracleDbType.NVarchar2, cuenta, ParameterDirection.Input);
                 listaParametros.Add(parametro);
-                resultado = oracleCon.ExecuteProcedure("pkg_account_management.delete_account", listaParametros);
+                resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.delete_account", listaParametros);
             }
 
             return RedirectToAction("Index");
@@ -167,7 +167,7 @@ namespace ProyectoFinal_DBD.Controllers
                 OracleParameter parametro = new OracleParameter();
                 parametro = new OracleParameter("vl_cuenta", OracleDbType.NVarchar2, cuenta, ParameterDirection.Input);
                 listaParametros.Add(parametro);
-                resultado = oracleCon.ExecuteProcedure("pkg_account_management.reopen_account", listaParametros);
+                resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.reopen_account", listaParametros);
             }
 
             return RedirectToAction("Index");
@@ -184,7 +184,7 @@ namespace ProyectoFinal_DBD.Controllers
             // Obtiene el listado de cuentas del sistema
             List<CuentaModel> listaCuentas = new List<CuentaModel>();
             oracleCon = new OracleConn();
-            DataTable dtCuentas = oracleCon.ExecuteQuery(String.Format("SELECT * FROM CUENTA WHERE STATUS = 'X' AND CUENTA <> '{0}' ORDER BY NOMBRE ASC", cuenta));
+            DataTable dtCuentas = oracleCon.ExecuteQuery(String.Format("SELECT * FROM SYSBANC.CUENTA WHERE STATUS = 'X' AND CUENTA <> '{0}' ORDER BY NOMBRE ASC", cuenta));
             listaCuentas = mapper.MapearModeloCuenta(dtCuentas);
             
             ViewBag.ListaCuentas = listaCuentas;
@@ -215,7 +215,7 @@ namespace ProyectoFinal_DBD.Controllers
                 listaParametros.Add(parametro);
                 parametro = new OracleParameter("vl_monto", OracleDbType.Decimal, monto, ParameterDirection.Input);
                 listaParametros.Add(parametro);
-                resultado = oracleCon.ExecuteProcedure("pkg_account_management.transf_saldos", listaParametros);
+                resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.transf_saldos", listaParametros);
             }
             else
             {
@@ -252,7 +252,7 @@ namespace ProyectoFinal_DBD.Controllers
                 OracleParameter parametro = new OracleParameter();
                 parametro = new OracleParameter("vl_monto", OracleDbType.Decimal, monto, ParameterDirection.Input);
                 listaParametros.Add(parametro);
-                resultado = oracleCon.ExecuteProcedure("pkg_account_management.aumentar_saldos", listaParametros);
+                resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.aumentar_saldos", listaParametros);
             }
             else
             {
@@ -288,7 +288,7 @@ namespace ProyectoFinal_DBD.Controllers
                 OracleParameter parametro = new OracleParameter();
                 parametro = new OracleParameter("vl_monto", OracleDbType.Decimal, monto, ParameterDirection.Input);
                 listaParametros.Add(parametro);
-                resultado = oracleCon.ExecuteProcedure("pkg_account_management.decrementar_saldos", listaParametros);
+                resultado = oracleCon.ExecuteProcedure("SYSBANC.pkg_account_management.decrementar_saldos", listaParametros);
             }
             else
             {
